@@ -1,0 +1,21 @@
+PAINEL CORRIDA CREA-MG — VERSÃO 7
+
+O que mudou:
+- O dia 06/12 (Corrida Rosa) agora tem quadro rosa.
+- O título desse dia aparece como "Corrida Rosa".
+- Incluídos ícones 192x192 e 512x512 e configuração de aplicativo (PWA).
+
+IMPORTANTE SOBRE O ATALHO NO ANDROID:
+Para instalar como aplicativo/atalho com ícone próprio e abrir em tela cheia,
+os arquivos precisam estar publicados em um endereço HTTPS (por exemplo,
+GitHub Pages ou Netlify). Abrir o HTML diretamente da pasta Downloads não
+permite ao Chrome instalar um PWA completo nem registrar o service worker.
+
+Depois de publicar a pasta inteira em HTTPS:
+1. Abra o endereço do painel no Google Chrome do Android.
+2. Toque no menu ⋮.
+3. Escolha "Instalar app" ou "Adicionar à tela inicial".
+4. Confirme. O ícone Corrida Crea-MG aparecerá na tela inicial.
+
+Os dados de treino ficam no armazenamento local do navegador/dispositivo.
+Evite limpar os dados do site se quiser preservar o histórico.

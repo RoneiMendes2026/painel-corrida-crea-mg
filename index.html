@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel Corrida Crea-MG</title>
+<meta name="theme-color" content="#092d83">
+<meta name="description" content="Painel pessoal de preparação para a Corrida do Crea-MG.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<style>
+:root{--navy:#092d83;--blue:#1456c5;--sky:#e8f3ff;--yellow:#ffdf35;--green:#188b48;--ink:#17233d;--muted:#61708b;--line:#d7e1f1;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:#f3f6fb;color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+header{background:linear-gradient(115deg,#082a7d,#1264d7);color:white;padding:26px max(18px,calc((100% - 1180px)/2));}
+.hero{display:flex;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap}.eyebrow{font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ffe65c;font-size:12px}
+h1{font-size:clamp(27px,5vw,44px);line-height:1.05;margin:6px 0}.sub{color:#e4edff;max-width:680px;margin:8px 0 0}
+.datebox{background:#ffffff18;border:1px solid #ffffff50;border-radius:14px;padding:14px 18px;min-width:190px}.datebox strong{display:block;font-size:22px;color:#ffe65c}
+main{max-width:1180px;margin:22px auto;padding:0 16px 40px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}.stat,.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 3px 12px #16396b0a}.stat b{display:block;color:var(--navy);font-size:20px}.stat span{color:var(--muted);font-size:13px}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:16px 0}.toolbar select,.toolbar button,.editor input,.editor select,.editor textarea{font:inherit;border:1px solid #cbd7e9;border-radius:9px;padding:10px;background:white;color:var(--ink)}
+button{cursor:pointer;font-weight:700}.primary{background:var(--blue)!important;color:white!important;border-color:var(--blue)!important}.secondary{background:#edf4ff!important;color:var(--navy)!important}.danger{color:#a32a2a!important;background:#fff2f2!important;border-color:#f1caca!important}
+.note{color:var(--muted);font-size:13px;margin-left:auto}.phase{margin:18px 0 9px;background:var(--navy);color:white;padding:10px 14px;border-radius:10px;font-weight:800}
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}.day{background:white;border:1px solid var(--line);border-radius:11px;padding:11px;min-height:145px;display:flex;flex-direction:column;gap:7px;cursor:pointer;transition:.15s}.day:hover{border-color:var(--blue);transform:translateY(-1px)}.day.selected{outline:3px solid #8ab6ff;border-color:var(--blue)}.day .date{font-size:12px;color:var(--muted);font-weight:700}.day .weekday{font-size:12px;font-weight:800;color:var(--navy);text-transform:uppercase}.day .activity{font-weight:700;font-size:13px;line-height:1.3}.day .detail{font-size:12px;color:var(--muted)}.tag{margin-top:auto;align-self:flex-start;background:#edf4ff;color:var(--navy);padding:3px 7px;border-radius:20px;font-size:10px;font-weight:800}.day.race{background:#fff8c9;border-color:#f0d34b}.day.race .tag{background:#ffe36a;color:#473800}.day.pink-race{background:#ffe5ef;border-color:#ed8eb2}.day.pink-race .tag{background:#f7b6d0;color:#762344}.day.pink-race .dayTitle{color:#8d2850}.day.rest{background:#f8faff}
+.lower{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-top:18px}.panel h2{margin:0 0 10px;color:var(--navy);font-size:18px}.editor{display:grid;grid-template-columns:1fr 1fr;gap:10px}.editor label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:4px}.editor input,.editor select,.editor textarea{width:100%}.editor .wide{grid-column:1/-1}.editor textarea{min-height:66px;resize:vertical}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.help{font-size:13px;color:var(--muted)}ul{padding-left:20px;margin:8px 0}li{margin:5px 0}
+
+.daySubtitle{display:block;width:100%;min-width:0;border:1px solid transparent;border-radius:7px;padding:5px 4px;margin:0 0 4px;background:transparent;color:var(--muted);font:400 12px/1.35 system-ui,-apple-system,Segoe UI,Roboto,Arial}.daySubtitle:focus{outline:2px solid #8ab6ff;border-color:var(--blue);background:#fff}.daySubtitle::placeholder{color:#7b879b;opacity:1}
+.dayTitle{display:block;width:100%;min-width:0;border:1px solid transparent;border-radius:7px;padding:5px 4px;margin:0 0 2px;background:transparent;color:var(--ink);font:700 13px/1.3 system-ui,-apple-system,Segoe UI,Roboto,Arial}.dayTitle:focus{outline:2px solid #8ab6ff;border-color:var(--blue);background:#fff}.dayTitle::placeholder{color:#1456c5;opacity:1;font-weight:700}\n.inlineDistance{display:flex;align-items:center;gap:6px;margin-top:3px;padding-top:7px;border-top:1px solid #e6edf7;font-size:11px;color:var(--muted);font-weight:700}
+.inlineDistance input{width:82px;min-width:0;border:1px solid #cbd7e9;border-radius:7px;padding:6px 7px;font:inherit;font-size:13px;color:var(--ink);background:#fff}
+.inlineDistance input:focus{outline:2px solid #8ab6ff;border-color:var(--blue)}
+.chartPanel{margin:0 0 18px}.weeklyChart{display:grid;gap:12px;margin-top:12px}.weekRow{display:grid;grid-template-columns:112px 1fr 62px;gap:10px;align-items:center}.weekLabel{font-size:12px;font-weight:700;color:var(--muted)}.barTrack{height:16px;background:#edf2fa;border-radius:20px;overflow:hidden}.barFill{height:100%;width:0;background:linear-gradient(90deg,#1b9a59,#78ca78);border-radius:20px;transition:width .25s}.weekValue{text-align:right;font-size:13px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}.chartEmpty{padding:16px;background:#f6f9fe;border-radius:10px;color:var(--muted);font-size:13px}.swapgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.swapgrid label{font-size:12px;color:var(--muted);font-weight:700}.swapgrid select{display:block;width:100%;margin-top:4px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(max-width:900px){.days{grid-template-columns:repeat(4,minmax(0,1fr))}.lower{grid-template-columns:1fr}}
+@media(max-width:560px){.weekRow{grid-template-columns:84px 1fr 52px;gap:7px}.weekLabel,.weekValue{font-size:11px}.stats{grid-template-columns:1fr}.days{grid-template-columns:repeat(2,minmax(0,1fr))}.day{min-height:130px}.editor{grid-template-columns:1fr}.editor .wide{grid-column:auto}.note{width:100%;margin-left:0}}
+</style>
+</head>
+<body>
+<header><div class="hero">
+ <div><div class="eyebrow">Plano de preparação · 09/11 a 13/12/2026</div><h1>3ª Corrida do Crea-MG</h1><div class="sub">Meta: completar os 5 km correndo direto e evoluir com conforto até 8 km. Use este painel para reorganizar os treinos quando precisar.</div></div>
+ <div class="datebox"><span>PROVA PRINCIPAL</span><strong>13 DEZ 2026</strong><span>Domingo · largada 08h</span></div>
+</div></header>
+<main>
+ <section class="stats" id="progressStats">
+  <div class="stat"><span>Treinos concluídos</span><b id="completedCount">0</b><span id="completedOf">de 35 atividades</span></div>
+  <div class="stat"><span>Progresso geral</span><b id="progressPercent">0%</b><div class="progressTrack"><div id="progressBar"></div></div></div>
+  <div class="stat"><span>Distância percorrida</span><b id="totalDistance">0 km</b><span>Soma das distâncias registradas</span></div>
+  <div class="stat"><span>Objetivo final</span><b>5 km direto</b><span>Com conforto e segurança</span></div>
+ </section>
+ <section class="panel chartPanel">
+  <h2>Distância percorrida por semana</h2>
+  <p class="help">Você pode editar o título e o subtítulo diretamente no cartão de cada dia. Para alterar outros dados, selecione o dia e use o editor abaixo. Digite os quilômetros no campo do dia ou no editor; o total e o gráfico são atualizados automaticamente.</p>
+  <div id="weeklyChart" class="weeklyChart" aria-live="polite"></div>
+ </section>
+ <div class="toolbar">
+  <button class="primary" id="swapOpen">⇄ Trocar dois dias</button>
+  <button class="secondary" id="addOpen">＋ Adicionar dia</button>
+  <button class="secondary" id="exportBtn">↓ Exportar programação</button>
+  <button class="danger" id="resetBtn">Restaurar plano original</button>
+  <span class="note">As alterações ficam salvas neste navegador automaticamente.</span>
+ </div>
+ <section id="swapPanel" class="panel" hidden>
+  <h2>Troca manual de programação</h2>
+  <p class="help">Escolha os dois dias. O treino completo (atividade e observações) será trocado entre eles. As datas permanecem no lugar.</p>
+  <div class="swapgrid"><label>Dia de origem<select id="swapA"></select></label><label>Trocar com<select id="swapB"></select></label></div>
+  <div class="actions"><button class="primary" id="doSwap">Confirmar troca</button><button class="secondary" id="swapClose">Fechar</button></div>
+ </section>
+ <div id="schedule"></div>
+ <section class="lower">
+  <div class="panel" id="editPanel">
+   <h2>Editar treino selecionado</h2>
+   <p class="help" id="selectedHint">Selecione um dia no calendário. Você poderá alterar o título, subtítulo, duração, distância e observações.</p>
+   <div class="editor">
+    <div><label for="editActivity">Título do dia / atividade</label><input id="editActivity" placeholder="Ex.: Corrida leve, caminhada ou descanso"></div>
+    <div><label for="editSubtitle">Subtítulo do dia</label><input id="editSubtitle" maxlength="120" placeholder="Ex.: em rua, opcional, recuperação..."></div>\n    <div><label for="editDuration">Duração / distância</label><input id="editDuration" placeholder="Ex.: 30 min ou 5 km"></div>
+    <div><label for="editType">Categoria</label><select id="editType"><option>Corrida</option><option>Caminhada</option><option>Fortalecimento</option><option>Mobilidade</option><option>Descanso</option><option>Prova</option><option>Outro</option></select></div>
+    <div><label for="editStatus">Status</label><select id="editStatus"><option value="Pendente">Pendente</option><option value="Concluído">Concluído</option><option value="Não realizado">Não realizado</option></select></div>
+    <div><label for="editDistance">Distância realizada (km)</label><input id="editDistance" type="number" min="0" step="0.01" placeholder="Ex.: 3,5"></div>
+    <div class="wide"><label for="editNotes">Observações</label><textarea id="editNotes" placeholder="Ex.: em rua, opcional, hidratação..."></textarea></div>
+   </div>
+   <div class="actions"><button class="primary" id="saveEdit">Salvar alterações</button><button class="secondary" id="clearStatus">Limpar status</button></div>
+  </div>
+  <div class="panel">
+   <h2>Dicas e acompanhamento</h2>
+   <ul><li>Comece e mantenha um ritmo confortável, em que consiga conversar.</li><li>Aumente a distância gradualmente.</li><li>Use tênis adequado e hidrate-se bem.</li><li>Se sentir dor persistente, reduza a intensidade ou substitua por caminhada.</li></ul>
+   <p class="help"><b>Legenda:</b> Corrida · Caminhada · Fortalecimento · Mobilidade · Descanso · Prova.</p>
+   <p class="help">Este painel organiza a programação; ajuste os treinos respeitando seus limites e, se necessário, a orientação do profissional que acompanha você.</p>
+  </div>
+ </section>
+</main><footer>Painel pessoal de preparação · As alterações são locais neste dispositivo/navegador.</footer>
+<script>
+const original = [
+["2026-11-09","Caminhada leve","20 a 30 min","Caminhada","Leve"],
+["2026-11-10","Corrida leve","25 min","Corrida","Em rua"],
+["2026-11-11","Fortalecimento B","20 min","Fortalecimento","Alongamento; troca de glúteos; equilíbrio; prancha"],
+["2026-11-12","Caminhada leve","15 min","Caminhada","Opcional"],
+["2026-11-13","Descanso e recuperação","","Descanso",""],
+["2026-11-14","Atividade não informada","","Outro","O quadro original mostra apenas um ícone; edite este dia se necessário."],
+["2026-11-15","Corrida leve","30 min","Corrida","Em rua"],
+["2026-11-16","Fortalecimento leve em casa","20 min","Fortalecimento",""],
+["2026-11-17","Corrida contínua","30 a 35 min","Corrida",""],
+["2026-11-18","Mobilidade e recuperação","15 min","Mobilidade",""],
+["2026-11-19","Corrida leve","20 a 25 min","Corrida",""],
+["2026-11-20","Descanso","","Descanso",""],
+["2026-11-21","Descanso e hidratação","","Descanso",""],
+["2026-11-22","PROVA — Circuito das Indústrias","5 km","Prova","Betim"],
+["2026-11-23","Descanso","","Descanso",""],
+["2026-11-24","Caminhada","20 min","Caminhada",""],
+["2026-11-25","Fortalecimento leve","20 min","Fortalecimento",""],
+["2026-11-26","Corrida leve","25 a 30 min","Corrida",""],
+["2026-11-27","Descanso","","Descanso",""],
+["2026-11-28","Descanso","","Descanso",""],
+["2026-11-29","Corrida leve","45 a 50 min","Corrida","Se estiver bem"],
+["2026-11-30","Fortalecimento","20 min","Fortalecimento",""],
+["2026-12-01","Corrida","35 a 40 min","Corrida",""],
+["2026-12-02","Fortalecimento","20 min","Fortalecimento",""],
+["2026-12-03","Corrida leve","25 a 30 min","Corrida",""],
+["2026-12-04","Recuperação","","Descanso",""],
+["2026-12-05","Descanso","","Descanso",""],
+["2026-12-06","Corrida (Corrida Rosa)","7 a 8 km","Prova",""],
+["2026-12-07","Descanso","","Descanso",""],
+["2026-12-08","Mobilidade","10 a 15 min","Mobilidade",""],
+["2026-12-09","Corrida leve","25 a 30 min","Corrida",""],
+["2026-12-10","Fortalecimento leve","10 a 15 min","Fortalecimento",""],
+["2026-12-11","Corrida curta","15 a 20 min","Corrida","Opcional"],
+["2026-12-12","Descanso e hidratação","","Descanso",""],
+["2026-12-13","3ª Corrida do Crea-MG","5 km","Prova","Belo Horizonte · largada 08h"]
+].map(([date,activity,duration,type,notes])=>({date,activity,duration,type,notes,status:"Pendente"}));
+let data;
+try{data=JSON.parse(localStorage.getItem("creaMgPlan2026"))||structuredClone(original)}catch(e){data=structuredClone(original)}
+data=data.map(x=>{
+ const legacySubtitle=x.date==="2026-11-14" && !x.subtitle && (x.notes||"").toLowerCase().includes("quadro original mostra") ? x.notes : "";
+ return {...x,activity:(x.date==="2026-12-06" && (x.activity==="Corrida (Corrida Rosa)" || !x.activity) ? "Corrida Rosa" : x.activity),subtitle:x.subtitle||legacySubtitle,notes:legacySubtitle?"":(x.notes||""),distanceKm:Number(x.distanceKm)||0};
+});
+let selected=null;
+const $=id=>document.getElementById(id);
+const fmt=d=>new Date(d+"T12:00:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"});
+const weekday=d=>new Date(d+"T12:00:00").toLocaleDateString("pt-BR",{weekday:"short"}).replace(".","");
+function save(){localStorage.setItem("creaMgPlan2026",JSON.stringify(data));}
+function phase(d){if(d<"2026-11-16")return "1ª Fase · Recuperar e construir base";if(d<"2026-11-23")return "2ª Fase · Provas e continuidade";if(d<"2026-12-07")return "3ª Fase · Resistência e preparação final";return "Semana da Corrida do Crea-MG";}
+function updateWeeklyChart(){
+ const weeks=new Map();
+ data.forEach(x=>{
+  const date=new Date(x.date+"T12:00:00");
+  const monday=new Date(date);monday.setDate(date.getDate()-((date.getDay()+6)%7));
+  const sunday=new Date(monday);sunday.setDate(monday.getDate()+6);
+  const key=monday.toISOString().slice(0,10);
+  const label=`${fmt(key)}–${fmt(sunday.toISOString().slice(0,10))}`;
+  weeks.set(key,{label,km:(weeks.get(key)?.km||0)+(Number(x.distanceKm)||0)});
+ });
+ const rows=[...weeks.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([,v])=>v);
+ const max=Math.max(1,...rows.map(x=>x.km));
+ const target=$("weeklyChart");target.innerHTML="";
+ if(rows.every(x=>x.km===0)){target.innerHTML='<div class="chartEmpty">Ainda não há distâncias registradas. Selecione um dia, informe os quilômetros percorridos e salve para começar a acompanhar sua evolução.</div>';return;}
+ rows.forEach(x=>{
+  const row=document.createElement("div");row.className="weekRow";
+  const label=document.createElement("div");label.className="weekLabel";label.textContent=x.label;
+  const track=document.createElement("div");track.className="barTrack";track.setAttribute("role","img");track.setAttribute("aria-label",`${x.label}: ${x.km.toLocaleString("pt-BR",{maximumFractionDigits:2})} quilômetros`);
+  const fill=document.createElement("div");fill.className="barFill";fill.style.width=(x.km/max*100)+"%";track.append(fill);
+  const value=document.createElement("div");value.className="weekValue";value.textContent=x.km.toLocaleString("pt-BR",{maximumFractionDigits:2})+" km";
+  row.append(label,track,value);target.append(row);
+ });
+}
+function updateProgress(){
+ const done=data.filter(x=>x.status==="Concluído").length;
+ const pct=data.length?Math.round(done/data.length*100):0;
+ const km=data.reduce((sum,x)=>sum+(Number(x.distanceKm)||0),0);
+ $("completedCount").textContent=done;
+ $("completedOf").textContent=`de ${data.length} atividades`;
+ $("progressPercent").textContent=pct+"%";
+ $("progressBar").style.width=pct+"%";
+ $("totalDistance").textContent=km.toLocaleString("pt-BR",{minimumFractionDigits:0,maximumFractionDigits:2})+" km";
+ updateWeeklyChart();
+}
+function render(){
+ const root=$("schedule");root.innerHTML="";
+ let last="";
+ data.forEach((x,i)=>{
+  const p=phase(x.date);if(p!==last){const h=document.createElement("div");h.className="phase";h.textContent=p;root.append(h);const grid=document.createElement("div");grid.className="days";grid.id="grid"+i;root.append(grid);last=p;}
+  const grid=root.lastElementChild;const card=document.createElement("div");
+  card.className="day"+(x.type==="Prova"?" race":x.type==="Descanso"?" rest":"")+(x.date==="2026-12-06"?" pink-race":"")+(selected===i?" selected":"");
+  card.innerHTML=`<div class="daytop"><div><div class="weekday">${weekday(x.date)}</div><div class="date">${fmt(x.date)}</div></div><input class="doneCheck" type="checkbox" aria-label="Marcar atividade como concluída"></div><input class="dayTitle" type="text" maxlength="80" aria-label="Título ou atividade deste dia" placeholder="Digite o título do dia"><input class="daySubtitle" type="text" maxlength="120" aria-label="Subtítulo deste dia" placeholder="Digite o subtítulo do dia"><div class="detail"></div><label class="inlineDistance">Distância realizada (km)<input class="dayDistance" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0,00" aria-label="Distância realizada em quilômetros"></label><div class="kmline"></div><span class="tag"></span>`;
+  const titleInput=card.querySelector(".dayTitle");
+  titleInput.value=x.activity||"";
+  titleInput.addEventListener("click",ev=>ev.stopPropagation());
+  titleInput.addEventListener("change",ev=>{
+   x.activity=ev.target.value.trim();
+   save();
+   if(selected===i)$("editActivity").value=x.activity;
+  });
+  titleInput.addEventListener("keydown",ev=>{if(ev.key==="Enter"){ev.preventDefault();titleInput.blur();}});
+  const subtitleInput=card.querySelector(".daySubtitle");
+  subtitleInput.value=x.subtitle||"";
+  subtitleInput.addEventListener("click",ev=>ev.stopPropagation());
+  subtitleInput.addEventListener("change",ev=>{
+   x.subtitle=ev.target.value.trim();
+   save();
+   if(selected===i)$("editSubtitle").value=x.subtitle;
+  });
+  subtitleInput.addEventListener("keydown",ev=>{if(ev.key==="Enter"){ev.preventDefault();subtitleInput.blur();}});
+
+  card.querySelector(".detail").textContent=[x.duration,x.notes].filter(Boolean).join(" · ");
+  card.querySelector(".kmline").textContent=Number(x.distanceKm)>0?`Percorrido: ${Number(x.distanceKm).toLocaleString("pt-BR")} km`:"";
+  const distanceInput=card.querySelector(".dayDistance");
+  distanceInput.value=Number(x.distanceKm)>0?String(x.distanceKm).replace(".",","):"";
+  distanceInput.addEventListener("click",ev=>ev.stopPropagation());
+  distanceInput.addEventListener("change",ev=>{
+   const value=String(ev.target.value).trim().replace(",",".");
+   x.distanceKm=value===""?0:Math.max(0,Number(value)||0);
+   save();updateProgress();
+   card.querySelector(".kmline").textContent=x.distanceKm>0?`Percorrido: ${x.distanceKm.toLocaleString("pt-BR")} km`:"";
+   if(selected===i)$("editDistance").value=x.distanceKm||"";
+  });
+  const check=card.querySelector(".doneCheck");check.checked=x.status==="Concluído";
+  check.addEventListener("click",ev=>ev.stopPropagation());
+  check.addEventListener("change",ev=>{x.status=ev.target.checked?"Concluído":"Pendente";save();updateProgress();card.querySelector(".tag").textContent=x.status==="Concluído"?"✓ Concluído":x.type;});
+  card.querySelector(".tag").textContent=x.status==="Concluído"?"✓ Concluído":x.status==="Não realizado"?"Não realizado":x.type;
+  card.addEventListener("click",()=>selectDay(i));grid.append(card);
+ });
+ populateSwap();updateProgress();
+}
+function selectDay(i){selected=i;const x=data[i];$("selectedHint").textContent=`${weekday(x.date)} · ${fmt(x.date)} · ${x.status}`;$("editActivity").value=x.activity;$("editSubtitle").value=x.subtitle||"";$("editDuration").value=x.duration;$("editType").value=x.type;$("editStatus").value=x.status;$("editDistance").value=x.distanceKm||"";$("editNotes").value=x.notes;render();}
+$("saveEdit").onclick=()=>{if(selected===null)return alert("Selecione um dia no calendário.");const x=data[selected];x.activity=$("editActivity").value.trim();x.subtitle=$("editSubtitle").value.trim();x.duration=$("editDuration").value.trim();x.type=$("editType").value;x.status=$("editStatus").value;x.distanceKm=Math.max(0,Number(String($("editDistance").value).replace(",","."))||0);x.notes=$("editNotes").value.trim();save();render();selectDay(selected);};
+$("clearStatus").onclick=()=>{if(selected===null)return;x=>x;data[selected].status="Pendente";save();render();selectDay(selected);};
+function populateSwap(){["swapA","swapB"].forEach(id=>{const s=$(id),v=s.value;s.innerHTML="";data.forEach((x,i)=>{const o=document.createElement("option");o.value=i;o.textContent=`${fmt(x.date)} — ${x.activity}`;s.append(o)});if(v!=="")s.value=v;});}
+$("swapOpen").onclick=()=>{$("swapPanel").hidden=false;populateSwap();};
+$("swapClose").onclick=()=>$("swapPanel").hidden=true;
+$("doSwap").onclick=()=>{const a=+$("swapA").value,b=+$("swapB").value;if(a===b)return alert("Escolha dois dias diferentes.");for(const k of ["activity","subtitle","duration","type","notes","status","distanceKm"]){[data[a][k],data[b][k]]=[data[b][k],data[a][k]];}save();render();$("swapPanel").hidden=true;alert("Programações trocadas! As datas não foram alteradas.");};
+$("addOpen").onclick=()=>{const d=prompt("Data do novo dia (AAAA-MM-DD):");if(!d||!/^\d{4}-\d{2}-\d{2}$/.test(d))return alert("Informe a data no formato AAAA-MM-DD.");if(data.some(x=>x.date===d))return alert("Já existe um dia nessa data.");data.push({date:d,activity:"Novo treino",duration:"",type:"Outro",notes:"",status:"Pendente",distanceKm:0});data.sort((a,b)=>a.date.localeCompare(b.date));save();render();};
+$("exportBtn").onclick=()=>{const blob=new Blob(["\ufeff"+["Data;Dia;Atividade;Subtítulo;Duração;Categoria;Status;Distância realizada (km);Observações",...data.map(x=>[x.date,weekday(x.date),x.activity,x.subtitle||"",x.duration,x.type,x.status,x.distanceKm||0,x.notes].map(v=>'"'+String(v||"").replaceAll('"','""')+'"').join(";"))].join("\n")],{type:"text/csv;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="programacao-corrida-crea-mg.csv";a.click();URL.revokeObjectURL(a.href);};
+$("resetBtn").onclick=()=>{if(confirm("Restaurar todos os dias para a programação original? Suas alterações serão perdidas.")){data=structuredClone(original);selected=null;save();render();$("selectedHint").textContent="Selecione um dia no calendário para editar a programação.";}};
+render();
+
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+}
+</script>
+</body></html>

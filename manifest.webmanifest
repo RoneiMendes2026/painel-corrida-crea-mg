@@ -1,0 +1,25 @@
+{
+  "id": "./",
+  "name": "Painel Corrida Crea-MG",
+  "short_name": "Corrida Crea-MG",
+  "description": "Acompanhamento dos treinos, distâncias e progresso para a Corrida do Crea-MG.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6fb",
+  "theme_color": "#092d83",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
