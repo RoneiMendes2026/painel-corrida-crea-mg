@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Painel Corrida Crea-MG",
-  "short_name": "Corrida Crea-MG",
-  "description": "Acompanhamento dos treinos, distâncias e progresso para a Corrida do Crea-MG.",
+  "name": "Painel de Treinos e Anotações",
+  "short_name": "Painel de Treinos",
+  "description": "Painel pessoal para acompanhamento dos treinos, distâncias e anotações.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
